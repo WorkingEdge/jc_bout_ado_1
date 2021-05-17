@@ -99,4 +99,12 @@
    ```py
    path('', include('home.urls'))
    ```
-8. Add the home app to the list of installed apps in 
+8. Add the home app to the list of installed apps in settings.py
+9. Add dirs in settings.py:
+   ```py
+   'DIRS': [
+            os.path.join(BASE_DIR, 'templates'),
+            os.path.join(BASE_DIR, 'templates', 'allauth'),
+
+        ],
+   ```
