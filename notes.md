@@ -2,6 +2,7 @@
 ## Contents <!-- omit in toc -->
 - [Early Stages](#early-stages)
 - [Authentication](#authentication)
+- [Set up Home Page](#set-up-home-page)
 ## Early Stages
 1. Create workspace using CI template
 2. Install Django:
@@ -56,4 +57,13 @@
    ACCOUNT_USERNAME_MIN_LENGTH = 4
    LOGIN_URL = '/accounts/login'
    LOGIN_REDIRECT_URL = '/'
+   ```
+
+## Set up Home Page
+
+**Note**: Anything installed with pip goes to sitepackages directory.
+
+1. Copy all the allauth templates from where they are in the site packages directory to the templates/allauth folder. There, we can customize them as required and not start from scratch.
+   ```shell
+   cp -r ../.pip-modules/lib/python3.8/site-packages/allauth/templates/* ./templates/allauth/
    ```
