@@ -3,6 +3,7 @@
 - [Early Stages](#early-stages)
 - [Authentication](#authentication)
 - [Set up Home Page](#set-up-home-page)
+    - [Create Home app for the home page](#create-home-app-for-the-home-page)
 ## Early Stages
 1. Create workspace using CI template
 2. Install Django:
@@ -67,3 +68,35 @@
    ```shell
    cp -r ../.pip-modules/lib/python3.8/site-packages/allauth/templates/* ./templates/allauth/
    ```
+2. Remove the folders for templates that won't be adjusted (eg tests)
+3. Create a base.html template at the top level of the templates folder (ie not inside allauth - it already has one)
+4. This will be the base template for the project. Set up the basic structure (Bootstrap) and add template blocks {%%} to take extra content later.
+5. Block the existing content (eg meta, css, js) and provide empty blocks for additional content.
+
+#### Create Home app for the home page
+1. Create the app:
+   ```shell
+   python3 manage.py startapp home
+   ```
+2.  Create a templates directory inside the home app:
+   ```
+   mkdir -p home/templates/home
+   ```
+3. Create an index.html file inside the inner home folder.
+4. Base this on the base.html template
+5. In views.py, create the view to return index page.
+6. In the home app folder create a urls.py file and copy the project level urls.py content into it. Strip this down and add the required path, so that it looks like:
+   ```py
+   from django.contrib import admin
+   from django.urls import path
+   from . import views
+
+   urlpatterns = [
+    path('', views.index, name='home')
+   ]
+   ```
+7. Add the home path to the urls.py file at the project level:
+   ```py
+   path('', include('home.urls'))
+   ```
+8. Add the home app to the list of installed apps in 
