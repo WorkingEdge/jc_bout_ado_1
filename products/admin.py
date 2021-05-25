@@ -3,7 +3,7 @@ from .models import Product, Category
 
 # Register your models here.
 
-class ProductAdmin(admin.ModelAdmin):
+class ProductAdmin(admin.ModelAdmin): # Dictates how the admin site looks and displays data. See: https://docs.djangoproject.com/en/3.2/ref/contrib/admin/
     list_display = (
         'sku', 
         'name',
