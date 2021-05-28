@@ -13,11 +13,26 @@ def all_products(request):
     products = Product.objects.all() # products variable is all objects in the Product model/table. Product is imported from models.py above.
     query = None # To alow error-free loading of products page without an accompanying search term
     categories = None
+    sort = None
+    direction = None
 
     if request.GET:
+        if 'sort' in request.GET:
+            sortkey = request.GET['sort']
+            sort = sortkey
+            #if sortkey == 'name':
+            #    sortkey = 'lower_name'
+            #   products = products.annotate(lower_name=Lower('name'))
+            if 'direction' in request.GET:
+                direction = request.GET['direction']
+                if direction == 'desc':
+                    sortkey = f'-{sortkey}'
+            products = products.order_by(sortkey) # order_by() is a django method: https://docs.djangoproject.com/en/3.2/ref/models/querysets/
+
+
         if 'category' in request.GET:
             categories = request.GET['category'].split(',')
-            products = products.filter(category__name__in=categories) #this line works because category and product tables are related
+            products = products.filter(category__name__in=categories) # this line works because category and product tables are related
 # Initially, products = all the objects in Product model
 # With lines above, products becomes a filtered set including products whose category is in 
 # the categories variable, which is a list of the categories (name) passed to the view with the request
@@ -33,10 +48,12 @@ def all_products(request):
             queries = Q(name__icontains=query) | Q(description__icontains=query)
             products = products.filter(queries)
 
+    current_sorting = f'{sort}_{direction}'
     context = {
         'products': products, # Passing the products to the template
         'search_term': query,
         'current_categories': categories,
+        'current_sorting': current_sorting
     }
     return render(request, 'products/products.html', context)
 
