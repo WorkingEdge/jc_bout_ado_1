@@ -12,6 +12,9 @@ def add_to_bag(request, item_id):
     
     """
     Get the bag value from the session object. If there is no bag, create it as empty dict
+    Session variables can be accessed anywhere the request object can be accessed.
+    It is a 'readable and writable, dictionary-like object that represents the current session'.
+    See: https://docs.djangoproject.com/en/3.2/topics/http/sessions/
     """
     bag = request.session.get('bag', {}) # see https://docs.djangoproject.com/en/3.2/topics/http/sessions/
    
@@ -29,6 +32,6 @@ def add_to_bag(request, item_id):
     Add/update the current bag to the session
     """
     request.session['bag'] = bag
-    print(request.session['bag'])
+    
     # Return user to the same page but with the updated info
     return redirect(redirect_url) 
