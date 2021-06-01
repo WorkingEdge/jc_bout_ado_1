@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import messages
 from django.db.models import Q # read the django query docs re 'Q'
+from django.db.models.functions import Lower #Needed to lower case the name in all_products(request)
 from .models import Product, Category #Import the Product and Category model from the models.py module in teh same directory as this
 
 # Create your views here
@@ -20,9 +21,11 @@ def all_products(request):
         if 'sort' in request.GET:
             sortkey = request.GET['sort']
             sort = sortkey
-            #if sortkey == 'name':
-            #    sortkey = 'lower_name'
-            #   products = products.annotate(lower_name=Lower('name'))
+            if sortkey == 'name':
+                sortkey = 'lower_name'
+                products = products.annotate(lower_name=Lower('name'))
+            if sortkey == 'category':
+                sortkey = 'category__name'
             if 'direction' in request.GET:
                 direction = request.GET['direction']
                 if direction == 'desc':
