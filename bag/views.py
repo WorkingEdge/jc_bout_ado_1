@@ -10,6 +10,11 @@ def add_to_bag(request, item_id):
     quantity = int(request.POST.get('quantity'))
     redirect_url = request.POST.get('redirect_url')
     
+    size = None
+    if 'product_size' in request.POST:
+        size = request.POST['product_size']
+
+    
     """
     Get the bag value from the session object. If there is no bag, create it as empty dict
     Session variables can be accessed anywhere the request object can be accessed.
@@ -18,15 +23,20 @@ def add_to_bag(request, item_id):
     """
     bag = request.session.get('bag', {}) # see https://docs.djangoproject.com/en/3.2/topics/http/sessions/
    
-    """
-    make a list of the keys in the bag dict. 
-    If the list contains the required item_id already, add the current quantity to it
-    If not, add an element to the dictionary as item_id = quantity
-    """
-    if item_id in list(bag.keys()):
-        bag[item_id] += quantity
+    """Handle sizes"""
+    if size:
+        if item_id in list(bag.keys()):
+            if size in bag[item_id]['items_by_size'].keys():
+                bag[item_id]['items_by_size'][size] += quantity
+            else:
+                bag[item_id]['items_by_size'][size] = quantity
+        else:
+            bag[item_id] = {'items_by_size': {size: quantity}}
     else:
-        bag[item_id] = quantity
+        if item_id in list(bag.keys()):
+            bag[item_id] += quantity
+        else:
+            bag[item_id] = quantity
     
     """
     Add/update the current bag to the session

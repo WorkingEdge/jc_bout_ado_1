@@ -45,7 +45,7 @@
                     <p class="mt-3">{{ product.description }}</p>
                     <p class="mt-3">{{ product.description }}</p>
                     
-                    <form class="form" action="{% url 'add_to_bag' product.id %}" method="POST">
+                    <form class="form" action="{% url 'add_to_bag' product.id %}" method="POST"></form>
                         
                         {# csrf token needed for POST method - else django won't accept it #}
 
@@ -58,6 +58,8 @@
                             Video uses an older more verbose syntax - with product.has_sizes as s
                             Could better use: with s = product.has_sizes
                             {% endcomment %}
+
+                            
                             {% with s=product.has_sizes %}
                             {% if s %}
                             <div class="col-12">
