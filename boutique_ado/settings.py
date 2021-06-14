@@ -177,6 +177,7 @@ STANDARD_DELIVERY_PERCENTAGE = 10
 STRIPE_CURRENCY = 'usd'
 STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY', '')
 STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY', '') # Store these in env variables in gitpod account or import each time in shell
+STRIPE_WH_SECRET = os.getenv('STRIPE_WH_SECRET', '')
 
 
 # Default primary key field type
