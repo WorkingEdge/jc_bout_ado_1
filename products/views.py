@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.db.models import Q # read the django query docs re 'Q'
 from django.db.models.functions import Lower #Needed to lower case the name in all_products(request)
 from .models import Product, Category #Import the Product and Category model from the models.py module in teh same directory as this
+from .forms import ProductForm
 
 # Create your views here
 
@@ -70,3 +71,24 @@ def product_detail(request, product_id):
         'product': product, # Passing the product to the template
     }
     return render(request, 'products/product_detail.html', context)
+
+
+def add_product(request):
+    """ Add a product to the store """
+    if request.method == 'POST':
+        form = ProductForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Successfully added product!')
+            return redirect(reverse('add_product'))
+        else:
+            messages.error(request, 'Failed to add product. Please ensure the form is valid.')
+    else:
+        form = ProductForm()
+        
+    template = 'products/add_product.html'
+    context = {
+        'form': form,
+    }
+
+    return render(request, template, context)
