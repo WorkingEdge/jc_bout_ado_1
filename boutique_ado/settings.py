@@ -121,12 +121,17 @@ WSGI_APPLICATION = 'boutique_ado.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
+if 'DATABASE_URL' in os.environ:
+    DATABASES = {
+    'default': dj_database_url.parse('postgres://txbsllgfljxzin:f389e1057823b4f09facb523aa35b68d38610db34ecd33425deccf4cbbc36ed7@ec2-54-216-48-43.eu-west-1.compute.amazonaws.com:5432/d33mtbl5bpvaa4')
+    }
+else:
+    DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
-   }
-}
+        }
+    }
 
 
 
