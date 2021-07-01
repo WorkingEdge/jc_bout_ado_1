@@ -129,13 +129,8 @@ else:
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
-<<<<<<< HEAD
         }
     }
-=======
-        }
-    }
->>>>>>> 441d32e33f57fa8fedae51feb2b4cba6738669e8
 
 
 # Password validation
